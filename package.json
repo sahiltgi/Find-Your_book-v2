@@ -1,0 +1,14 @@
+{
+  "name": "bookfinder",
+  "version": "1.0.0",
+  "description": "\"An application for book lovers to get suggestion for up rated books\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "\"sahil tyagi\"",
+  "license": "ISC",
+  "dependencies": {
+    "node-modules": "^1.0.1"
+  }
+}
