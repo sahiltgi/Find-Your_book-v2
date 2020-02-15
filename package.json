@@ -4,13 +4,14 @@
   "description": "\"An application for book lovers to get suggestion for up rated books\"",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sahiltgi/Find-Your_book-v2.git"
   },
-  "author": "",
+  "author": "sahil",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/sahiltgi/Find-Your_book-v2/issues"
