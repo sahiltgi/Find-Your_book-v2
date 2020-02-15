@@ -2,10 +2,10 @@
   "name": "bookfinder",
   "version": "1.0.0",
   "description": "\"An application for book lovers to get suggestion for up rated books\"",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -13,12 +13,9 @@
   },
   "author": "sahil",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/sahiltgi/Find-Your_book-v2/issues"
-  },
-  "homepage": "https://github.com/sahiltgi/Find-Your_book-v2#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "express-session": "^1.17.0",
     "mongodb": "^3.5.2"
   },
   "devDependencies": {
