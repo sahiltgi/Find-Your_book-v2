@@ -9,6 +9,8 @@ const DB_URI =
 const app = express();
 const port = process.env.PORT || 8080;
 
+app.use(express.static("public"));
+
 //use sessions for tracking logins
 app.use(
   session({
@@ -17,6 +19,10 @@ app.use(
     saveUninitialized: false
   })
 );
+
+app.get("/", (request, response) => {
+  response.sendFile(__dirname + "/index.html");
+});
 
 // defining middlewares
 app.use(express.json());
