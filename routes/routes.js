@@ -1,5 +1,6 @@
 const AUTHENTICATION = "authenticate-user";
 const RATING = "rating-books";
+const BOOKDATA = "book-database";
 
 module.exports = function(app, db) {
   /*--------------------------------------------------------AUTHENTICATION-----------------------------------------------------------*/
@@ -58,4 +59,42 @@ module.exports = function(app, db) {
     }
     return res.status(200).send(req.session.user);
   });
+
+  /*-----------------------------------------FETCHING DATA FROM MONGO-----------------------------------------------*/
+
+  //Get data in frontend
+  app.get("/api/bookdata", (req, res) => {
+    const mydara = db.collection(BOOKDATA);
+    mydara.find({}).toArray(function(err, result) {
+      var obj = JSON.parse(JSON.stringify(result));
+      if (err) {
+        throw err;
+      } else {
+        res.send(obj);
+      }
+    });
+  });
+
+  // var schema = new mongoose.schema({
+  //   _id = String,
+  //   authors = String,
+  //   title = String
+  // })
+
+  // app.get("/app/bookdata",function(req,res){
+
+  // })
+
+  // app.get("/api/bookdata", (req, res) => {
+  //   const collection = db.collection(BOOKDATA);
+  //   collection.find({}, (err, result) => {
+  //     if (err) {
+  //       console.log(err);
+  //       return res.status(500).send(err);
+  //     } else {
+  //       // return res.status(200).send(JSON.stringify(result));
+  //       console.log(JSON.stringify(result));
+  //     }
+  //   });
+  // });
 };

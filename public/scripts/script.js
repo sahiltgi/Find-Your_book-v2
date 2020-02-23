@@ -1,4 +1,4 @@
-const hostUrl = "http://127.0.0.1:80/";
+const hostUrl = "http://localhost:8080/";
 
 // function validateEmail(emailField) {
 //   var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
