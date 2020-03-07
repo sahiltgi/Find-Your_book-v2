@@ -65,35 +65,64 @@ module.exports = function(app, db) {
   //Get data in frontend
   app.get("/api/bookdata", (req, res) => {
     const mydara = db.collection(BOOKDATA);
+    const page = parseInt(req.query.page);
+    const limit = parseInt(req.query.limit);
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
+    const results = {};
+
+    if (endIndex < mydara.length) {
+      results.next = {
+        page: page + 1,
+        limit: limit
+      };
+    }
+
+    if (startIndex > 0) {
+      results.previous = {
+        page: page - 1,
+        limit: limit
+      };
+    }
+
     mydara.find({}).toArray(function(err, result) {
       var obj = JSON.parse(JSON.stringify(result));
       if (err) {
         throw err;
       } else {
-        res.send(obj);
+        results.results = obj.slice(startIndex, endIndex);
+        res.send(results);
+        console.log(results);
       }
     });
   });
 
-  // var schema = new mongoose.schema({
-  //   _id = String,
-  //   authors = String,
-  //   title = String
-  // })
-
-  // app.get("/app/bookdata",function(req,res){
-
-  // })
-
-  // app.get("/api/bookdata", (req, res) => {
-  //   const collection = db.collection(BOOKDATA);
-  //   collection.find({}, (err, result) => {
+  // app.get("/api/bookdata/:page/:perPage", function(req, res) {
+  //   const mydata = db.collection(BOOKDATA);
+  //   console.log("page number : " + req.params.page);
+  //   console.log("per page : " + req.params.perPage);
+  //   var pageNo = req.params.page; // parseInt(req.query.pageNo)
+  //   var size = req.params.perPage;
+  //   var query = {};
+  //   if (pageNo < 0 || pageNo === 0) {
+  //     response = {
+  //       error: true,
+  //       message: "invalid page number, should start with 1"
+  //     };
+  //     return res.json(response);
+  //   }
+  //   query.skip = size * (pageNo - 1);
+  //   query.limit = parseInt(size);
+  //   // Find some documents
+  //   mydata.find({}, query, function(err, data) {
+  //     // Mongo command to fetch all data from collection.
+  //     let obj = JSON.parse(JSON.stringify(data));
   //     if (err) {
-  //       console.log(err);
-  //       return res.status(500).send(err);
+  //       response = { error: true, message: "Error fetching data" };
   //     } else {
-  //       // return res.status(200).send(JSON.stringify(result));
-  //       console.log(JSON.stringify(result));
+  //       response = { error: false, message: obj };
+  //       res.send(obj);
   //     }
   //   });
   // });

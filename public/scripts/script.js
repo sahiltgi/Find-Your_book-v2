@@ -71,9 +71,7 @@ async function login() {
       alert("no user exist with this name , please register first");
       document.getElementById("signUp").click();
     } else if (res.status == "200") {
-      window.location.assign(
-        "https://findyourbook-2020.herokuapp.com/views/interest.html"
-      );
+      window.location.assign("http://localhost:8080/views/bookfind.html");
     } else {
       alert(res.text());
     }
@@ -94,3 +92,19 @@ async function logout() {
     "https://findyourbook-2020.herokuapp.com/views/login.html"
   );
 }
+
+function fetchBooks() {
+  //obj calling
+}
+
+// async function fetchBooks() {
+//   fetch(hostUrl + "/api/boodata", {
+//     method: "GET",
+//     body: obj,
+//     headers: {
+//       "Content-Type": "application/json"
+//     }
+//   });
+//   console.log(data);
+// }
+// fetchBooks();

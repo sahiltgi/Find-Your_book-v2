@@ -3,6 +3,7 @@ const middleware = require("./routes/middleware");
 const routes = require("./routes/routes.js");
 const session = require("express-session");
 const mongodb = require("mongodb");
+// const mongoose = require("mongoose");
 const DB_URI =
   "mongodb+srv://sahil00:sahil123@cluster1-f6fqs.mongodb.net/test?retryWrites=true&w=majority";
 
