@@ -1,4 +1,6 @@
 const hostUrl = "http://localhost:8080/";
+const Limit = 20;
+const PageNumber = 1;
 
 // function validateEmail(emailField) {
 //   var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -93,18 +95,70 @@ async function logout() {
   );
 }
 
-function fetchBooks() {
-  //obj calling
+let bookContainer = document.getElementById("bookInfo");
+
+// const bookDataDisplay = data => {
+//   //asuming data is an array of books
+//   const bookElements = data.reduce((str, book) => {
+//     str += `
+//       <div class="card">
+//         <div class="card-header">${book.title}</div>
+//       </div>
+//     `;
+//   }, "");
+
+//   document.getElementById("bookInfo").innerHTML = bookElements;
+// };
+
+// fetchBooks().then(data => bookDataDisplay(data));
+
+function bookDataDisplay() {
+  let card = document.createElement("div");
+  card.className = "card-header";
+  let footerData = document.createTextNode("Footer");
+  card.appendChild(footerData);
+  let cardBody = document.createElement("div");
+  cardBody.className = "card-body";
+  let heading = document.createElement("h5");
+  heading.className = "card-title";
+  let titleData = document.createTextNode("Special Title Treatement");
+  heading.appendChild(titleData);
+  let para = document.createElement("p");
+  para.className = "card-text";
+  let paraData = document.createTextNode(
+    "With supporting text below as a natural lead-in to additional content."
+  );
+  para.appendChild(paraData);
+  cardBody.appendChild(heading);
+  cardBody.appendChild(para);
+  bookContainer.appendChild(card);
+  bookContainer.appendChild(cardBody);
 }
 
-// async function fetchBooks() {
-//   fetch(hostUrl + "/api/boodata", {
-//     method: "GET",
-//     body: obj,
-//     headers: {
-//       "Content-Type": "application/json"
-//     }
-//   });
-//   console.log(data);
-// }
-// fetchBooks();
+bookDataDisplay();
+
+async function fetchBooks() {
+  try {
+    let response = await fetch(
+      hostUrl + `api/bookdata?page=${PageNumber}&limit=${Limit}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+    console.log(response);
+    response.json().then(matter => {
+      console.log(matter);
+    });
+    if (response.status == 200) {
+      console.log("the status is " + response.status);
+    } else {
+      console.log("the status is " + response.status);
+    }
+  } catch (error) {
+    console.log("Error:" + error);
+  }
+}
+fetchBooks();
