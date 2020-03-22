@@ -74,3 +74,8 @@ html {
 .checkbox {
   color: #fff;
 }
+
+.error {
+  color: rgb(240, 110, 132);
+  min-height: 2rem;
+}

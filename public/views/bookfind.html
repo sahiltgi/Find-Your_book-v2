@@ -32,14 +32,61 @@
       charset="utf8"
       src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"
     ></script>
-    <link rel="http://localhost:8080/styles/bookfind.css" type="" href="" />
+    <!-- <link rel="http://localhost:8080/styles/bookfind.css" type="" href="" /> -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
   <body>
+    <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
+      <a class="navbar-brand" href="http://localhost:8080/">
+        <img
+          src="http://localhost:8080/assets/logo.JPG"
+          height="28"
+          alt="book FINDER"
+        />
+      </a>
+      <h4 class="logo-heading" style="color: rgba(0,0,0,.5)">
+        <strong>BOOK FINDER</strong>
+      </h4>
+      <button
+        type="button"
+        class="navbar-toggler"
+        data-toggle="collapse"
+        data-target="#navbarCollapse"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav ml-auto">
+          <a
+            href="http://localhost:8080/"
+            class="nav-item nav-link"
+            style="font-weight: bold;"
+            >Home</a
+          >
+          <a href="#" class="nav-item nav-link" style="font-weight: bold;"
+            >Features</a
+          >
+          <a href="#" class="nav-item nav-link" style="font-weight: bold;"
+            >About Us</a
+          >
+          <a
+            onclick="window.location.href='http://localhost:8080/'"
+            class="nav-item nav-link"
+            style="font-weight: bold;cursor: pointer;"
+            >Logout</a
+          >
+        </div>
+      </div>
+    </nav>
     <div class="card mt-5 mr-5 ml-5 mb-5" id="bookInfo">
-      <table id="table_id" class="display table-design" data-page-length="25">
+      <table
+        id="table_id"
+        class="display table-design cell-border"
+        data-page-length="10"
+      >
         <thead>
           <tr>
             <th>Author</th>
@@ -47,6 +94,18 @@
             <th>Cover Page</th>
           </tr>
         </thead>
+        <!-- <div class="loader" id="loader">
+          <div class="bar bar1"></div>
+          <div class="bar bar2"></div>
+          <div class="bar bar3"></div>
+          <div class="bar bar4"></div>
+          <div class="bar bar5"></div>
+          <div class="bar bar6"></div>
+          <div class="bar bar7"></div>
+          <div class="bar bar8"></div>
+          <br />
+          <div>loading data...</div>
+        </div> -->
         <tbody></tbody>
       </table>
     </div>

@@ -16,12 +16,44 @@ const PageNumber = 1;
 async function registration() {
   event.preventDefault();
   let signUpEle = document.forms.signUpForm.elements;
-  let data = JSON.stringify({
-    username: signUpEle.username.value,
-    email: signUpEle.email.value,
-    password: signUpEle.password.value
-  });
-  try {
+  let userName = signUpEle.username.value;
+  let userEmail = signUpEle.email.value;
+  let userPass = signUpEle.password.value;
+  let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if (userName == "" && userEmail == "" && userPass == "") {
+    document.getElementById("signUpFormMessage").innerText =
+      "username, email and password field cannot be empty";
+  } else if (userName == "" && userEmail == "") {
+    document.getElementById("signUpFormMessage").innerText =
+      "username and email field cannot be empty";
+  } else if (userName == "" && userPass == "") {
+    document.getElementById("signUpFormMessage").innerText =
+      "username and password field cannot be empty";
+  } else if (userEmail == "" && userPass == "") {
+    document.getElementById("signUpFormMessage").innerText =
+      "email and password field cannot be empty";
+  } else if (userName == "") {
+    document.getElementById("signUpFormMessage").innerText =
+      "username field cannot be empty";
+  } else if (userEmail == "") {
+    document.getElementById("signUpFormMessage").innerText =
+      "email field cannot be empty";
+  } else if (userPass == "") {
+    document.getElementById("signUpFormMessage").innerText =
+      "password field cannot be empty";
+  } else if (userPass.length < 8) {
+    document.getElementById("signUpFormMessage").innerText =
+      "Length of password should be greater than 8";
+  } else if (regex.test(userEmail) == false) {
+    document.getElementById("signUpFormMessage").innerText =
+      "Write email in abc@xyz.com format";
+  } else {
+    let data = JSON.stringify({
+      username: userName,
+      email: userEmail,
+      password: userPass
+    });
+
     let res = await fetch(hostUrl + "api/signup", {
       method: "POST",
       body: data,
@@ -33,16 +65,15 @@ async function registration() {
     console.log("Success:", JSON.stringify(dataJson));
     console.log("Successful Signup");
     document.forms.signUpForm.reset();
-    alert("login with your newely created credentials");
-    // document.getElementById("signIn").click();
-  } catch (error) {
-    console.log("error", error);
+    alert("Sign up with your newely created credentials");
+    document.getElementById("login_redirect").click();
   }
 }
 
 async function login() {
   event.preventDefault();
   let loginEle = document.forms.signInForm.elements;
+  let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   let userEmail = loginEle.email.value;
   let userPass = loginEle.password.value;
   console.log(userEmail);
@@ -55,6 +86,11 @@ async function login() {
   } else if (userPass == "") {
     document.getElementById("signInFormMsg").innerText =
       "password field cannot be empty";
+  } else if (userPass.length < 8) {
+    document.getElementById("signInFormMsg").innerText =
+      "Check for the Password";
+  } else if (regex.test(userEmail) == false) {
+    document.getElementById("signInFormMsg").innerText = "Check for the Email";
   } else {
     let data = JSON.stringify({
       email: userEmail,
@@ -71,7 +107,7 @@ async function login() {
     });
     if (res.status == "404") {
       alert("no user exist with this name , please register first");
-      document.getElementById("signUp").click();
+      document.getElementById("signup_redirect").click();
     } else if (res.status == "200") {
       window.location.assign("http://localhost:8080/views/bookfind.html");
     } else {
@@ -163,40 +199,6 @@ async function fetchBooks() {
 }
 // fetchBooks();
 
-// $(document).ready(function() {
-//   $("#table_id").DataTable({
-//     ajax: {
-//       type: "GET",
-//       url: "/api/v1/bookdata"
-//     }
-//   });
-// });
-// $(document).ready(function () {
-//   var t = $('#table_id').DataTable({
-//       "paging": true,
-//       "pageLength": 10,
-//       "processing": true,
-//       "serverSide": true,
-//       'ajax': {
-//           'type': 'GET',
-//           'url': '/api/v1/bookdata'
-//       },
-//       'columns':
-//           [
-//           { 'data': '_id', "defaultContent": "", 'name': 'ZipCode' },
-//           { 'data': 'city', "defaultContent": "", 'name': 'City' },
-//           { 'data': 'pop', "defaultContent": "", 'name': 'Population' },
-//           { 'data': 'state', "defaultContent": "", 'name': 'State' }
-//           ],
-//       "columnDefs": [
-//           {
-//               "searchable": false,
-//               "orderable": false,
-//               "targets": 0
-//           }
-//       ]
-// });
-
 $(document).ready(function() {
   $.ajax({
     url: "/api/v1/bookdata?page=1&limit=10000",
@@ -210,7 +212,7 @@ $(document).ready(function() {
         tr += "<tr>";
         tr += "<td>" + books[i].authors + "</td>";
         tr += "<td>" + books[i].title + "</td>";
-        tr += "<td><img src='" + books[i].small_image_url + "' /></td>";
+        tr += "<td><img src='" + books[i].image_url + "' /></td>";
         tr += "</tr>";
       }
       $("#table_id").append(tr);

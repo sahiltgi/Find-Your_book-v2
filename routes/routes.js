@@ -42,7 +42,7 @@ module.exports = function(app, db) {
           status: "success",
           message: "new user added"
         });
-        console.log(result);
+        // console.log(result);
       })
       .catch(err => {
         res.status(400).send({

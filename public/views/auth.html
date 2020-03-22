@@ -43,16 +43,16 @@
     <title>Book Finder</title>
   </head>
   <body>
-    <!-- <nav class="navbar navbar-expand-md navbar-light bg-light">
-      <a class="navbar-brand" href="https://findyourbook-2020.herokuapp.com/">
+    <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
+      <a class="navbar-brand" href="http://localhost:8080/">
         <img
-          src="https://findyourbook-2020.herokuapp.com/assets/thumbnail.JPG"
+          src="http://localhost:8080/assets/logo.JPG"
           height="28"
           alt="book FINDER"
         />
       </a>
-      <h4 class="logo-heading" style="color: #1b1b1b;">
-        <strong>book FINDER</strong>
+      <h4 class="logo-heading" style="color: rgba(0,0,0,.5)">
+        <strong>BOOK FINDER</strong>
       </h4>
       <button
         type="button"
@@ -66,7 +66,7 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ml-auto">
           <a
-            href="https://findyourbook-2020.herokuapp.com/"
+            href="http://localhost:8080/"
             class="nav-item nav-link"
             style="font-weight: bold;"
             >Home</a
@@ -78,14 +78,14 @@
             >About Us</a
           >
           <a
-            href="https://findyourbook-2020.herokuapp.com/views/login.html"
+            href="http://localhost:8080/"
             class="nav-item nav-link"
             style="font-weight: bold;"
-            >Login</a
+            >Log In</a
           >
         </div>
       </div>
-    </nav> -->
+    </nav>
     <div class="container-fluid">
       <div class="row">
         <div class="info-background img-fluid col-md-8"></div>
@@ -125,9 +125,10 @@
                   class="form-control rounded-pill form-control-lg"
                   placeholder="Password"
                   minlength="8"
+                  required
                 />
               </div>
-              <div class="checkbox">
+              <!-- <div class="checkbox">
                 <label
                   ><input
                     type="checkbox"
@@ -135,20 +136,22 @@
                   />
                   I agree to all the terms and conditions.</label
                 >
-              </div>
+              </div> -->
+              <div class="error" id="signUpFormMessage"></div>
               <button
                 type="submit"
                 id="register_button"
                 onclick="registration()"
                 class="btn mt-5 rounded-pill btn-lg btn-custom btn-block text-uppercase"
                 style="color: aliceblue;"
-                disabled="true"
               >
                 Sign Up
               </button>
               <p class="mt-3 font-weight-normal" style="color: aliceblue;">
                 Already have an account?
-                <a href="http://localhost:8080/"><strong>Login Now</strong></a>
+                <a id="login_redirect" href="http://localhost:8080/"
+                  ><strong>Login Now</strong></a
+                >
               </p>
             </form>
           </div>
