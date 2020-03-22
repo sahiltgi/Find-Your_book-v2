@@ -63,7 +63,9 @@ module.exports = function(app, db) {
   /*-----------------------------------------FETCHING DATA FROM MONGO-----------------------------------------------*/
 
   //Get data in frontend
-  app.get("/api/bookdata", (req, res) => {
+  //api/v1/bookdata
+  //api/v2/bookdata
+  app.get("/api/v1/bookdata", (req, res) => {
     const mydara = db.collection(BOOKDATA);
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
@@ -93,11 +95,12 @@ module.exports = function(app, db) {
       } else {
         results.results = obj.slice(startIndex, endIndex);
         res.send(results);
-        console.log(results);
+        // console.log(results);
       }
     });
   });
 
+  // app.get("/api/v2/bookdata"){};
   // app.get("/api/bookdata/:page/:perPage", function(req, res) {
   //   const mydata = db.collection(BOOKDATA);
   //   console.log("page number : " + req.params.page);

@@ -1,5 +1,5 @@
 const hostUrl = "http://localhost:8080/";
-const Limit = 20;
+const Limit = 1000;
 const PageNumber = 1;
 
 // function validateEmail(emailField) {
@@ -112,30 +112,30 @@ let bookContainer = document.getElementById("bookInfo");
 
 // fetchBooks().then(data => bookDataDisplay(data));
 
-function bookDataDisplay() {
-  let card = document.createElement("div");
-  card.className = "card-header";
-  let footerData = document.createTextNode("Footer");
-  card.appendChild(footerData);
-  let cardBody = document.createElement("div");
-  cardBody.className = "card-body";
-  let heading = document.createElement("h5");
-  heading.className = "card-title";
-  let titleData = document.createTextNode("Special Title Treatement");
-  heading.appendChild(titleData);
-  let para = document.createElement("p");
-  para.className = "card-text";
-  let paraData = document.createTextNode(
-    "With supporting text below as a natural lead-in to additional content."
-  );
-  para.appendChild(paraData);
-  cardBody.appendChild(heading);
-  cardBody.appendChild(para);
-  bookContainer.appendChild(card);
-  bookContainer.appendChild(cardBody);
-}
+// function bookDataDisplay() {
+//   let card = document.createElement("div");
+//   card.className = "card-header";
+//   let footerData = document.createTextNode("Footer");
+//   card.appendChild(footerData);
+//   let cardBody = document.createElement("div");
+//   cardBody.className = "card-body";
+//   let heading = document.createElement("h5");
+//   heading.className = "card-title";
+//   let titleData = document.createTextNode("Special Title Treatement");
+//   heading.appendChild(titleData);
+//   let para = document.createElement("p");
+//   para.className = "card-text";
+//   let paraData = document.createTextNode(
+//     "With supporting text below as a natural lead-in to additional content."
+//   );
+//   para.appendChild(paraData);
+//   cardBody.appendChild(heading);
+//   cardBody.appendChild(para);
+//   bookContainer.appendChild(card);
+//   bookContainer.appendChild(cardBody);
+// }
 
-bookDataDisplay();
+// bookDataDisplay();
 
 async function fetchBooks() {
   try {
@@ -161,4 +161,70 @@ async function fetchBooks() {
     console.log("Error:" + error);
   }
 }
-fetchBooks();
+// fetchBooks();
+
+// $(document).ready(function() {
+//   $("#table_id").DataTable({
+//     ajax: {
+//       type: "GET",
+//       url: "/api/v1/bookdata"
+//     }
+//   });
+// });
+// $(document).ready(function () {
+//   var t = $('#table_id').DataTable({
+//       "paging": true,
+//       "pageLength": 10,
+//       "processing": true,
+//       "serverSide": true,
+//       'ajax': {
+//           'type': 'GET',
+//           'url': '/api/v1/bookdata'
+//       },
+//       'columns':
+//           [
+//           { 'data': '_id', "defaultContent": "", 'name': 'ZipCode' },
+//           { 'data': 'city', "defaultContent": "", 'name': 'City' },
+//           { 'data': 'pop', "defaultContent": "", 'name': 'Population' },
+//           { 'data': 'state', "defaultContent": "", 'name': 'State' }
+//           ],
+//       "columnDefs": [
+//           {
+//               "searchable": false,
+//               "orderable": false,
+//               "targets": 0
+//           }
+//       ]
+// });
+
+$(document).ready(function() {
+  $.ajax({
+    url: "/api/v1/bookdata?page=1&limit=10000",
+    dataType: "json",
+    type: "GET",
+    contentType: "application/json; charset=utf-8",
+    success: function(data) {
+      let tr;
+      const books = data.results;
+      for (let i = 0; i < books.length; i++) {
+        tr += "<tr>";
+        tr += "<td>" + books[i].authors + "</td>";
+        tr += "<td>" + books[i].title + "</td>";
+        tr += "<td><img src='" + books[i].small_image_url + "' /></td>";
+        tr += "</tr>";
+      }
+      $("#table_id").append(tr);
+      tblFormation();
+    },
+    error: function(xhr) {}
+  });
+  function tblFormation() {
+    $("#table_id").DataTable({
+      searching: true,
+      processing: true,
+      scrollY: 700,
+      deferRender: true,
+      scroller: true
+    });
+  }
+});
