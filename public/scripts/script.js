@@ -1,5 +1,5 @@
 const hostUrl = "http://localhost:8080/";
-const Limit = 1000;
+const Limit = 10;
 const PageNumber = 1;
 
 // function validateEmail(emailField) {
@@ -76,7 +76,6 @@ async function login() {
   let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   let userEmail = loginEle.email.value;
   let userPass = loginEle.password.value;
-  console.log(userEmail);
   if (userEmail == "" && userPass == "") {
     document.getElementById("signInFormMsg").innerText =
       "email and password field cannot be empty";
@@ -104,7 +103,25 @@ async function login() {
         "Content-Type": "application/json"
       },
       redirect: "follow"
+    }).then(res => {
+      data = res.json();
+      return data;
     });
+    // .then(res => {
+    //   user = res.user_obj;
+    //   user_id = user._id;
+    //   console.log(user);
+    //   console.log(user_id);
+    //   if (res.status == "404") {
+    //     alert("no user exist with this name , please register first");
+    //     document.getElementById("signup_redirect").click();
+    //   } else if (res.status == "200") {
+    //     window.location = "http://localhost:8080/views/bookfind.html";
+    //     localStorage.setItem("loggedInUser", user.username);
+    //     return user;
+    //   }
+    // });
+    // .then(res => {
     if (res.status == "404") {
       alert("no user exist with this name , please register first");
       document.getElementById("signup_redirect").click();
@@ -113,9 +130,10 @@ async function login() {
     } else {
       alert(res.text());
     }
-    document.forms.signInForm.reset();
   }
+  document.forms.signInForm.reset();
 }
+// }
 
 async function logout() {
   fetch(hostUrl + "/api/user/logout", {
@@ -212,7 +230,8 @@ $(document).ready(function() {
         tr += "<tr>";
         tr += "<td>" + books[i].authors + "</td>";
         tr += "<td>" + books[i].title + "</td>";
-        tr += "<td><img src='" + books[i].image_url + "' /></td>";
+        tr += "<td><img src='" + books[i].small_image_url + "' /></td>";
+        tr += "<td><button>ADD</button>";
         tr += "</tr>";
       }
       $("#table_id").append(tr);
@@ -224,9 +243,22 @@ $(document).ready(function() {
     $("#table_id").DataTable({
       searching: true,
       processing: true,
-      scrollY: 700,
       deferRender: true,
       scroller: true
     });
   }
 });
+
+// $(document).ready(function() {
+//   $("#table_id").DataTable({
+//     scrollY: 400,
+//     processing: true,
+//     serverSide: true,
+//     ajax: "/api/v1/bookdata?page=1&limit=10000"
+//   });
+// });
+
+// $(document).ready(function() {
+//   const username = localStorage.getItem("loggedInUser");
+//   $("#name").html("Welcome Mr. " + username);
+// });

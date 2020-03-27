@@ -5,6 +5,25 @@ const BOOKDATA = "book-database";
 module.exports = function(app, db) {
   /*--------------------------------------------------------AUTHENTICATION-----------------------------------------------------------*/
   //login
+  // app.post("/api/login", (req, res) => {
+  //   const { email, password } = req.body;
+  //   const collection = db.collection(AUTHENTICATION);
+  //   collection.findOne({ email: email, password: password }, (err, user) => {
+  //     if (err) {
+  //       console.log(err);
+  //       return res.status(500).send(err);
+  //     }
+  //     if (!user) {
+  //       return res.status(404).send("please register first");
+  //     }
+  //     req.session.user = user;
+  //     return res.status(200).send({
+  //       user_obj: user,
+  //       status: "success",
+  //       message: "successfully logged in"
+  //     });
+  //   });
+  // });
   app.post("/api/login", (req, res) => {
     const { email, password } = req.body;
     const collection = db.collection(AUTHENTICATION);
@@ -95,10 +114,18 @@ module.exports = function(app, db) {
       } else {
         results.results = obj.slice(startIndex, endIndex);
         res.send(results);
-        // console.log(results);
       }
     });
   });
+
+  // app.get("/api/v2/bookdata", function(req, res) {
+  //   const myData = db.collection(BOOKDATA);
+  //   myData
+  //     .find({})
+  //     .skip(10)
+  //     .limit(10);
+  //   console.log(myData);
+  // });
 
   // app.get("/api/v2/bookdata"){};
   // app.get("/api/bookdata/:page/:perPage", function(req, res) {
@@ -129,4 +156,36 @@ module.exports = function(app, db) {
   //     }
   //   });
   // });
+
+  /*---------------------------------------------USER SPECIFIC WISHLISHT------------------------------------------*/
+  app.post("/api/ratings", (request, response) => {
+    const body = request.body;
+    if (body && body.rating && body.book && body.author) {
+      const rateBook = db.collection(RATING);
+      rateBook
+        .insert({
+          author: body.author,
+          book: body.book,
+          rating: body.rating
+        })
+        .then(result => {
+          response.send({
+            status: "success",
+            message: "Ratings given Successfully"
+          });
+          console.log(result);
+        })
+        .catch(err => {
+          response.status(400).send({
+            status: "error",
+            message: err
+          });
+        });
+    } else {
+      response.status(400).send({
+        status: "error",
+        message: "check for the fields"
+      });
+    }
+  });
 };
