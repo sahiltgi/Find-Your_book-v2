@@ -79,3 +79,7 @@ html {
   color: rgb(240, 110, 132);
   min-height: 2rem;
 }
+
+.successful {
+  color: rgb(10, 148, 10);
+}

@@ -127,3 +127,7 @@ html {
 .car-back {
   background: linear-gradient(-90deg, #02203c, #001528);
 }
+
+.successful {
+  color: rgb(10, 148, 10);
+}

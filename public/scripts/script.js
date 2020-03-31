@@ -54,7 +54,7 @@ async function registration() {
     console.log("Success:", JSON.stringify(dataJson));
     console.log("Successful Signup");
     document.forms.signUpForm.reset();
-    document.getElementById("signUpFormMessage").innerText =
+    document.getElementById("login-signup").innerText =
       "User Signed Up Successfully!";
     // alert("Sign up with your newely created credentials");
     document.getElementById("login_redirect").click();
@@ -121,7 +121,7 @@ async function login() {
       // alert("no user exist with this name , please register first");
       document.getElementById("signup_redirect").click();
     } else if (res.status == "200") {
-      document.getElementById("signInFormMsg").innerText = "Logged in!";
+      document.getElementById("login-signup").innerText = "Logged in!";
       window.location.assign("http://localhost:8080/views/bookfind.html");
     } else {
       alert(res.text());
