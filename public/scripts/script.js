@@ -1,18 +1,7 @@
 const hostUrl = "http://localhost:8080/";
 const Limit = 10;
 const PageNumber = 1;
-
-// function validateEmail(emailField) {
-//   var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-
-//   if (reg.test(emailField.value) == false) {
-//     alert("Invalid Email Address");
-//     return false;
-//   }
-
-//   return true;
-// }
-
+let user_id;
 async function registration() {
   event.preventDefault();
   let signUpEle = document.forms.signUpForm.elements;
@@ -65,7 +54,9 @@ async function registration() {
     console.log("Success:", JSON.stringify(dataJson));
     console.log("Successful Signup");
     document.forms.signUpForm.reset();
-    alert("Sign up with your newely created credentials");
+    document.getElementById("signUpFormMessage").innerText =
+      "User Signed Up Successfully!";
+    // alert("Sign up with your newely created credentials");
     document.getElementById("login_redirect").click();
   }
 }
@@ -95,7 +86,6 @@ async function login() {
       email: userEmail,
       password: userPass
     });
-
     let res = await fetch(hostUrl + "api/login", {
       method: "POST",
       body: data,
@@ -103,10 +93,14 @@ async function login() {
         "Content-Type": "application/json"
       },
       redirect: "follow"
-    }).then(res => {
-      data = res.json();
-      return data;
     });
+
+    // let userDetails = await fetchUserDetails();
+    // user_id = userDetails._id;
+    // .then(res => {
+    //   data = res.json();
+    //   return data;
+    // });
     // .then(res => {
     //   user = res.user_obj;
     //   user_id = user._id;
@@ -123,9 +117,11 @@ async function login() {
     // });
     // .then(res => {
     if (res.status == "404") {
-      alert("no user exist with this name , please register first");
+      document.getElementById("signInFormMsg").innerText = "No user Exist!";
+      // alert("no user exist with this name , please register first");
       document.getElementById("signup_redirect").click();
     } else if (res.status == "200") {
+      document.getElementById("signInFormMsg").innerText = "Logged in!";
       window.location.assign("http://localhost:8080/views/bookfind.html");
     } else {
       alert(res.text());
@@ -135,8 +131,20 @@ async function login() {
 }
 // }
 
+async function fetchUserDetails() {
+  let cookie = document.cookie;
+  let res = await fetch(hostUrl + "api/user/dashboard", {
+    redirect: "follow",
+    headers: {
+      Cookie: cookie
+    }
+  });
+  let userJson = await res.json();
+  return userJson;
+}
+
 async function logout() {
-  fetch(hostUrl + "/api/user/logout", {
+  fetch(hostUrl + "api/user/logout", {
     method: "GET",
     redirect: "follow"
   })
@@ -166,28 +174,28 @@ let bookContainer = document.getElementById("bookInfo");
 
 // fetchBooks().then(data => bookDataDisplay(data));
 
-// function bookDataDisplay() {
-//   let card = document.createElement("div");
-//   card.className = "card-header";
-//   let footerData = document.createTextNode("Footer");
-//   card.appendChild(footerData);
-//   let cardBody = document.createElement("div");
-//   cardBody.className = "card-body";
-//   let heading = document.createElement("h5");
-//   heading.className = "card-title";
-//   let titleData = document.createTextNode("Special Title Treatement");
-//   heading.appendChild(titleData);
-//   let para = document.createElement("p");
-//   para.className = "card-text";
-//   let paraData = document.createTextNode(
-//     "With supporting text below as a natural lead-in to additional content."
-//   );
-//   para.appendChild(paraData);
-//   cardBody.appendChild(heading);
-//   cardBody.appendChild(para);
-//   bookContainer.appendChild(card);
-//   bookContainer.appendChild(cardBody);
-// }
+function bookDataDisplay() {
+  let card = document.createElement("div");
+  card.className = "card-header";
+  let footerData = document.createTextNode("Footer");
+  card.appendChild(footerData);
+  let cardBody = document.createElement("div");
+  cardBody.className = "card-body";
+  let heading = document.createElement("h5");
+  heading.className = "card-title";
+  let titleData = document.createTextNode("Special Title Treatement");
+  heading.appendChild(titleData);
+  let para = document.createElement("p");
+  para.className = "card-text";
+  let paraData = document.createTextNode(
+    "With supporting text below as a natural lead-in to additional content."
+  );
+  para.appendChild(paraData);
+  cardBody.appendChild(heading);
+  cardBody.appendChild(para);
+  bookContainer.appendChild(card);
+  bookContainer.appendChild(cardBody);
+}
 
 // bookDataDisplay();
 
@@ -223,41 +231,99 @@ $(document).ready(function() {
     dataType: "json",
     type: "GET",
     contentType: "application/json; charset=utf-8",
+    beforeSend: function() {
+      // Show image container
+      $("#loader").show();
+    },
     success: function(data) {
       let tr;
       const books = data.results;
       for (let i = 0; i < books.length; i++) {
+        let book_id = books[i]._id;
+        let authorsdetail = books[i].authors;
+        let titledetail = books[i].title;
+        let imagedetail = books[i].small_image_url;
         tr += "<tr>";
-        tr += "<td>" + books[i].authors + "</td>";
-        tr += "<td>" + books[i].title + "</td>";
-        tr += "<td><img src='" + books[i].small_image_url + "' /></td>";
-        tr += "<td><button>ADD</button>";
+        tr += "<td>" + authorsdetail + "</td>";
+        tr += "<td>" + titledetail + "</td>";
+        tr += "<td><img src='" + imagedetail + "' /></td>";
+        tr +=
+          "<td><input type='button' value='Add to Wishlist' data-book_id='" +
+          book_id +
+          "' data-titledetail='" +
+          titledetail +
+          "' data-authorsdetail='" +
+          authorsdetail +
+          "' data-imagedetail='" +
+          imagedetail +
+          "' onClick='userWishlist(this)' />";
         tr += "</tr>";
       }
       $("#table_id").append(tr);
       tblFormation();
     },
-    error: function(xhr) {}
+    complete: function(data) {
+      // Hide image container
+      $("#loader").hide();
+    }
+    // error: function(xhr) {}
   });
+
   function tblFormation() {
     $("#table_id").DataTable({
       searching: true,
-      processing: true,
+      //processing: true,
       deferRender: true,
       scroller: true
     });
   }
 });
 
-// $(document).ready(function() {
-//   $("#table_id").DataTable({
-//     scrollY: 400,
-//     processing: true,
-//     serverSide: true,
-//     ajax: "/api/v1/bookdata?page=1&limit=10000"
-//   });
-// });
+async function userWishlist(el) {
+  let userDetails = await fetchUserDetails();
+  user_id = userDetails._id;
+  try {
+    const userId = user_id;
+    console.log(user_id);
+    const bookId = el.dataset.book_id;
+    const bookname = el.dataset.titledetail;
+    const authorname = el.dataset.authorsdetail;
+    const bookimg = el.dataset.imagedetail;
+    let body = {
+      user_id: userId,
+      book: {
+        id: bookId,
+        name: bookname,
+        author: authorname,
+        img: bookimg
+      }
+    };
+    console.log(JSON.stringify(body));
 
+    let response = await fetch(hostUrl + "api/wishlist", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body),
+      redirect: "follow"
+    });
+    if (response.status == 400) {
+      alert("update failed");
+    } else if (response.status == 200) {
+      alert("added");
+    } else {
+      alert(response.text());
+    }
+  } catch (error) {
+    console.log("Error");
+  }
+}
+
+$("#navbar_feature_btn").on("click", function(e) {
+  e.preventDefault();
+  $("#exampleModalLong").modal("show");
+});
 // $(document).ready(function() {
 //   const username = localStorage.getItem("loggedInUser");
 //   $("#name").html("Welcome Mr. " + username);

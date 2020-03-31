@@ -1,6 +1,7 @@
+const ObjectID = require("mongodb").ObjectID;
 const AUTHENTICATION = "authenticate-user";
-const RATING = "rating-books";
 const BOOKDATA = "book-database";
+const WISHLIST = "user-wishlist";
 
 module.exports = function(app, db) {
   /*--------------------------------------------------------AUTHENTICATION-----------------------------------------------------------*/
@@ -36,7 +37,11 @@ module.exports = function(app, db) {
         return res.status(404).send("please register first");
       }
       req.session.user = user;
-      return res.status(200).send("Successful login");
+      return res.status(200).send({
+        user_obj: user,
+        status: "success",
+        message: "successfully logged in"
+      });
     });
   });
 
@@ -157,35 +162,80 @@ module.exports = function(app, db) {
   //   });
   // });
 
-  /*---------------------------------------------USER SPECIFIC WISHLISHT------------------------------------------*/
-  app.post("/api/ratings", (request, response) => {
-    const body = request.body;
-    if (body && body.rating && body.book && body.author) {
-      const rateBook = db.collection(RATING);
-      rateBook
-        .insert({
-          author: body.author,
-          book: body.book,
-          rating: body.rating
-        })
+  /*---------------------------------------------USER SPECIFIC WISHLIST------------------------------------------*/
+  db.createCollection("user-wishlist", {
+    validator: {
+      $jsonSchema: {
+        bsonType: "object",
+        required: ["bagpack"],
+        properties: {
+          // user_id: {
+          //   bsonType: "string",
+          //   description: "must be a string and is required"
+          // },
+          bagpack: {
+            bsonType: "array",
+            description: "must be a object",
+            uniqueItems: true
+          }
+        }
+      }
+    },
+    validationAction: "error" // "warn" to allow wrong entries with warning
+  });
+
+  app.put("/api/wishlist", (req, res) => {
+    const body = req.body;
+    const userId = body.user_id;
+    const bookId = body.book.id;
+    const bookName = body.book.name;
+    const bookAuthor = body.book.author;
+    const bookImg = body.book.img;
+    if (body) {
+      const collection = db.collection(WISHLIST);
+      console.log("user wishlist", collection);
+      collection
+        .updateOne(
+          { _id: userId }, // filter
+          {
+            $push: {
+              bagpack: {
+                bookId: bookId,
+                bookName: bookName,
+                bookAuthor: bookAuthor,
+                bookImg: bookImg
+              }
+            }
+          },
+          { upsert: true }
+        )
         .then(result => {
-          response.send({
-            status: "success",
-            message: "Ratings given Successfully"
+          res.status(200).send({
+            message: "new book added sucessfully",
+            data: result
           });
-          console.log(result);
         })
-        .catch(err => {
-          response.status(400).send({
-            status: "error",
-            message: err
+        .catch(error => {
+          console.log("update error", error);
+          res.status(400).send({
+            message: "update failed",
+            error: error
           });
         });
-    } else {
-      response.status(400).send({
-        status: "error",
-        message: "check for the fields"
-      });
     }
+  });
+
+  app.get("/api/wishlist/display", function(req, res) {
+    const wishlistData = db.collection(WISHLIST);
+    console.log(wishlistData);
+    wishlistData.find({}).toArray(function(err, result) {
+      let obj = JSON.parse(JSON.stringify(result));
+      if (err) {
+        throw err;
+      } else {
+        console.log(obj);
+        res.send(obj);
+      }
+    });
   });
 };

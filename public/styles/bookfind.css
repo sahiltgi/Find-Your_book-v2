@@ -1,13 +1,16 @@
 body {
-  background-color: blueviolet;
+  background: linear-gradient(-90deg, #02203c, #001528);
 }
 
 table,
 th,
 td {
-  /* border: 3px solid rgb(110, 10, 10); */
   border-collapse: collapse;
-  /* overflow: hidden; */
+  color: #f44292;
+}
+
+label {
+  color: #f3f3f3;
 }
 
 tbody {
@@ -17,4 +20,48 @@ tbody {
 th,
 td {
   padding: 5px;
+}
+/* 
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+th {
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
+  background: #f3f3f3;
+  font-weight: bold;
+  padding: 2px;
+}
+
+td {
+  background: #fafafa;
+  text-align: center;
+  height: 40px;
+}
+tr {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+} */
+
+.no-js #loader {
+  display: none;
+}
+.js #loader {
+  display: block;
+  position: absolute;
+  left: 100px;
+  top: 0;
+}
+.se-pre-con {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  /* z-index: 9999; */
+  background: url(http://smallenvelop.com/wp-content/uploads/2014/08/Preloader_11.gif)
+    center no-repeat;
 }

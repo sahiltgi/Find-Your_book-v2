@@ -71,7 +71,13 @@
             style="font-weight: bold;"
             >Home</a
           >
-          <a href="#" class="nav-item nav-link" style="font-weight: bold;"
+          <a
+            href="#exampleModalLong"
+            class="nav-item nav-link"
+            data-toggle="modal"
+            id="navbar_feature_btn"
+            data-target="#exampleModalLong"
+            style="font-weight: bold;"
             >Features</a
           >
           <a href="#" class="nav-item nav-link" style="font-weight: bold;"
@@ -86,6 +92,58 @@
         </div>
       </div>
     </nav>
+    <div
+      class="modal fade"
+      id="exampleModalLong"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLongTitle"
+      aria-hidden="true"
+    >
+      <!-- <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Features</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div> -->
+      <div class="card modal-dialog car-back w-90">
+        <img
+          class="card-img-top"
+          src="http://localhost:8080/assets/features.jpg"
+          alt="Card image cap"
+          style="height: 20rem;"
+        />
+        <div class="card-body">
+          <h5 class="card-title" style="color: #fff;">Features</h5>
+          <p class="card-text"></p>
+          <p class="btn feat">
+            Got it!
+          </p>
+        </div>
+      </div>
+    </div>
     <div class="container-fluid">
       <div class="row">
         <div class="info-background img-fluid col-md-8"></div>
