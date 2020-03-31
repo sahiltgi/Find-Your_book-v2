@@ -1,0 +1,46 @@
+body,
+html {
+  height: 100%;
+}
+
+.row {
+  height: 100vh;
+}
+
+.mt-5 {
+  margin-top: 10rem !important;
+}
+
+.info-background {
+  height: 100vh;
+  min-height: 500px;
+  background-image: url("../assets/aboutus.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.8;
+}
+
+.text-background {
+  background: linear-gradient(-90deg, #02203c, #001528);
+}
+
+.btn-custom {
+  background: #723dbe;
+  border-color: #723dbe;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  min-height: 48px;
+}
+.btn-custom:focus,
+.btn-custom:hover,
+.btn-custom:active,
+.btn-custom:active:focus {
+  background: #54229d;
+  border-color: #54229d;
+  color: #fff;
+}
+.btn-custom:focus {
+  box-shadow: 0 0 0 0.2rem rgba(114, 61, 190, 0.25);
+}

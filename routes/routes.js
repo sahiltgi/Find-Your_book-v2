@@ -193,7 +193,7 @@ module.exports = function(app, db) {
     const bookImg = body.book.img;
     if (body) {
       const collection = db.collection(WISHLIST);
-      console.log("user wishlist", collection);
+      // console.log("user wishlist", collection);
       collection
         .updateOne(
           { _id: userId }, // filter
@@ -216,7 +216,7 @@ module.exports = function(app, db) {
           });
         })
         .catch(error => {
-          console.log("update error", error);
+          // console.log("update error", error);
           res.status(400).send({
             message: "update failed",
             error: error
