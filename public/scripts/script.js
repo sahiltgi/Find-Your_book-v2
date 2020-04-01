@@ -243,12 +243,21 @@ $(document).ready(function() {
         let authorsdetail = books[i].authors;
         let titledetail = books[i].title;
         let imagedetail = books[i].small_image_url;
-        tr += "<tr>";
-        tr += "<td>" + authorsdetail + "</td>";
-        tr += "<td>" + titledetail + "</td>";
-        tr += "<td><img src='" + imagedetail + "' /></td>";
+        tr += "<tr style='color:#723dbe'>";
         tr +=
-          "<td><input type='button' value='Add to Wishlist' data-book_id='" +
+          "<td style='vertical-align: middle;width: 40vw !important'>" +
+          authorsdetail +
+          "</td>";
+        tr +=
+          "<td style='vertical-align: middle;width: 40vw !important'>" +
+          titledetail +
+          "</td>";
+        tr +=
+          "<td class='pt-1 pl-1 pr-1' style='vertical-align: middle;width: 40vw !important'><img src='" +
+          imagedetail +
+          "' /></td>";
+        tr +=
+          "<td style='vertical-align: middle;width:40vw !important'><input type='button' class='btn btn-active-primary btn-sm m-0 waves-effect wish-button' value='WISHLIST' data-book_id='" +
           book_id +
           "' data-titledetail='" +
           titledetail +
@@ -274,7 +283,14 @@ $(document).ready(function() {
       searching: true,
       //processing: true,
       deferRender: true,
-      scroller: true
+      // scroller: true,
+      pagingType: "numbers",
+      columnDefs: [
+        {
+          orderable: false,
+          targets: 3
+        }
+      ]
     });
   }
 });
