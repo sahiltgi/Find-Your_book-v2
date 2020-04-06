@@ -83,3 +83,17 @@ html {
 .successful {
   color: rgb(10, 148, 10);
 }
+
+.feat {
+  background: #723dbe;
+  border-color: #723dbe;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  min-height: 40px;
+  cursor: pointer;
+}
+
+.car-back {
+  background: linear-gradient(-90deg, #02203c, #001528);
+}

@@ -2,6 +2,7 @@ const hostUrl = "http://localhost:8080/";
 const Limit = 10;
 const PageNumber = 1;
 let user_id;
+
 async function registration() {
   event.preventDefault();
   let signUpEle = document.forms.signUpForm.elements;
@@ -40,15 +41,15 @@ async function registration() {
     let data = JSON.stringify({
       username: userName,
       email: userEmail,
-      password: userPass
+      password: userPass,
     });
 
     let res = await fetch(hostUrl + "api/signup", {
       method: "POST",
       body: data,
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
     let dataJson = await res.json();
     console.log("Success:", JSON.stringify(dataJson));
@@ -56,7 +57,6 @@ async function registration() {
     document.forms.signUpForm.reset();
     document.getElementById("login-signup").innerText =
       "User Signed Up Successfully!";
-    // alert("Sign up with your newely created credentials");
     document.getElementById("login_redirect").click();
   }
 }
@@ -84,44 +84,23 @@ async function login() {
   } else {
     let data = JSON.stringify({
       email: userEmail,
-      password: userPass
+      password: userPass,
     });
     let res = await fetch(hostUrl + "api/login", {
       method: "POST",
       body: data,
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      redirect: "follow"
+      redirect: "follow",
     });
-
-    // let userDetails = await fetchUserDetails();
-    // user_id = userDetails._id;
-    // .then(res => {
-    //   data = res.json();
-    //   return data;
-    // });
-    // .then(res => {
-    //   user = res.user_obj;
-    //   user_id = user._id;
-    //   console.log(user);
-    //   console.log(user_id);
-    //   if (res.status == "404") {
-    //     alert("no user exist with this name , please register first");
-    //     document.getElementById("signup_redirect").click();
-    //   } else if (res.status == "200") {
-    //     window.location = "http://localhost:8080/views/bookfind.html";
-    //     localStorage.setItem("loggedInUser", user.username);
-    //     return user;
-    //   }
-    // });
-    // .then(res => {
     if (res.status == "404") {
       document.getElementById("signInFormMsg").innerText = "No user Exist!";
       // alert("no user exist with this name , please register first");
       document.getElementById("signup_redirect").click();
     } else if (res.status == "200") {
       document.getElementById("login-signup").innerText = "Logged in!";
+      // toastr.success("Logged in!");
       window.location.assign("http://localhost:8080/views/bookfind.html");
     } else {
       alert(res.text());
@@ -129,15 +108,21 @@ async function login() {
   }
   document.forms.signInForm.reset();
 }
-// }
+
+async function showUserInfo() {
+  let user = await fetchUserDetails();
+  console.log(user);
+  document.getElementById("user").innerText = user.username;
+}
+showUserInfo();
 
 async function fetchUserDetails() {
   let cookie = document.cookie;
   let res = await fetch(hostUrl + "api/user/dashboard", {
     redirect: "follow",
     headers: {
-      Cookie: cookie
-    }
+      Cookie: cookie,
+    },
   });
   let userJson = await res.json();
   return userJson;
@@ -146,33 +131,18 @@ async function fetchUserDetails() {
 async function logout() {
   fetch(hostUrl + "api/user/logout", {
     method: "GET",
-    redirect: "follow"
+    redirect: "follow",
   })
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log("error", error));
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.log("error", error));
 
   window.location.assign(
     "https://findyourbook-2020.herokuapp.com/views/login.html"
   );
 }
 
-let bookContainer = document.getElementById("bookInfo");
-
-// const bookDataDisplay = data => {
-//   //asuming data is an array of books
-//   const bookElements = data.reduce((str, book) => {
-//     str += `
-//       <div class="card">
-//         <div class="card-header">${book.title}</div>
-//       </div>
-//     `;
-//   }, "");
-
-//   document.getElementById("bookInfo").innerHTML = bookElements;
-// };
-
-// fetchBooks().then(data => bookDataDisplay(data));
+let bookContainer = document.getElementById("bookWishlist");
 
 function bookDataDisplay() {
   let card = document.createElement("div");
@@ -197,22 +167,23 @@ function bookDataDisplay() {
   bookContainer.appendChild(cardBody);
 }
 
-// bookDataDisplay();
-
-async function fetchBooks() {
+async function fetchWishlist() {
+  let userDetails = await fetchUserDetails();
+  user_id = userDetails._id;
   try {
     let response = await fetch(
-      hostUrl + `api/bookdata?page=${PageNumber}&limit=${Limit}`,
+      hostUrl + "api/wishlist/display?userId=" + user_id,
       {
         method: "GET",
         headers: {
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       }
     );
-    console.log(response);
-    response.json().then(matter => {
-      console.log(matter);
+    // console.log(response.json());
+    response.json().then((matter) => {
+      console.log(matter[0].bagpack);
+      matter[0].bagpack.forEach(bookDataDisplay);
     });
     if (response.status == 200) {
       console.log("the status is " + response.status);
@@ -223,19 +194,19 @@ async function fetchBooks() {
     console.log("Error:" + error);
   }
 }
-// fetchBooks();
+fetchWishlist();
 
-$(document).ready(function() {
+$(document).ready(function () {
   $.ajax({
     url: "/api/v1/bookdata?page=1&limit=10000",
     dataType: "json",
     type: "GET",
     contentType: "application/json; charset=utf-8",
-    beforeSend: function() {
+    beforeSend: function () {
       // Show image container
       $("#loader").show();
     },
-    success: function(data) {
+    success: function (data) {
       let tr;
       const books = data.results;
       for (let i = 0; i < books.length; i++) {
@@ -271,10 +242,10 @@ $(document).ready(function() {
       $("#table_id").append(tr);
       tblFormation();
     },
-    complete: function(data) {
+    complete: function (data) {
       // Hide image container
       $("#loader").hide();
-    }
+    },
     // error: function(xhr) {}
   });
 
@@ -288,9 +259,9 @@ $(document).ready(function() {
       columnDefs: [
         {
           orderable: false,
-          targets: 3
-        }
-      ]
+          targets: 3,
+        },
+      ],
     });
   }
 });
@@ -300,7 +271,6 @@ async function userWishlist(el) {
   user_id = userDetails._id;
   try {
     const userId = user_id;
-    console.log(user_id);
     const bookId = el.dataset.book_id;
     const bookname = el.dataset.titledetail;
     const authorname = el.dataset.authorsdetail;
@@ -311,23 +281,22 @@ async function userWishlist(el) {
         id: bookId,
         name: bookname,
         author: authorname,
-        img: bookimg
-      }
+        img: bookimg,
+      },
     };
-    console.log(JSON.stringify(body));
 
     let response = await fetch(hostUrl + "api/wishlist", {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
-      redirect: "follow"
+      redirect: "follow",
     });
     if (response.status == 400) {
-      alert("update failed");
+      toastr.error("Already Exist!");
     } else if (response.status == 200) {
-      alert("added");
+      toastr.success("Added to the Wishlist");
     } else {
       alert(response.text());
     }
@@ -336,11 +305,7 @@ async function userWishlist(el) {
   }
 }
 
-$("#navbar_feature_btn").on("click", function(e) {
+$("#navbar_feature_btn").on("click", function (e) {
   e.preventDefault();
   $("#exampleModalLong").modal("show");
 });
-// $(document).ready(function() {
-//   const username = localStorage.getItem("loggedInUser");
-//   $("#name").html("Welcome Mr. " + username);
-// });

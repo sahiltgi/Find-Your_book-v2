@@ -112,3 +112,31 @@ label {
   background-color: #5a4181 !Important;
   border: solid 1px #5a4181;
 }
+
+.validate {
+  color: rgb(39, 179, 39);
+  height: 2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.validate-failed {
+  color: rgb(201, 30, 30);
+  height: 2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.feat {
+  background: #723dbe;
+  border-color: #723dbe;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  min-height: 40px;
+  cursor: pointer;
+}
+
+.car-back {
+  background: linear-gradient(-90deg, #02203c, #001528);
+}

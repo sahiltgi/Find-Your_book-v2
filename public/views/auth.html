@@ -52,7 +52,7 @@
           alt="book FINDER"
         />
       </a>
-      <h4 class="logo-heading" style="color: rgba(0,0,0,.5)">
+      <h4 class="logo-heading" style="color: rgba(0, 0, 0, 0.5);">
         <strong>BOOK FINDER</strong>
       </h4>
       <button
@@ -72,10 +72,19 @@
             style="font-weight: bold;"
             >Home</a
           >
-          <a href="#" class="nav-item nav-link" style="font-weight: bold;"
+          <a
+            href="#exampleModalLong"
+            class="nav-item nav-link"
+            data-toggle="modal"
+            id="navbar_feature_btn"
+            data-target="#exampleModalLong"
+            style="font-weight: bold;"
             >Features</a
           >
-          <a href="#" class="nav-item nav-link" style="font-weight: bold;"
+          <a
+            href="http://localhost:8080/views/aboutus.html"
+            class="nav-item nav-link"
+            style="font-weight: bold;"
             >About Us</a
           >
           <a
@@ -87,6 +96,41 @@
         </div>
       </div>
     </nav>
+    <div
+      class="modal fade"
+      id="exampleModalLong"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLongTitle"
+      aria-hidden="true"
+    >
+      <div class="card modal-dialog car-back w-90">
+        <img
+          class="card-img-top"
+          src="http://localhost:8080/assets/features.jpg"
+          alt="Card image cap"
+          style="height: 20rem;"
+        />
+        <div class="card-body">
+          <h5 class="card-title" style="color: #fff;">Features</h5>
+          <p class="card-text" style="color: #fff;">
+            1) Provides a huge number of Books to Seach
+          </p>
+          <p class="card-text" style="color: #fff;">
+            2) Provides Authentication for different user
+          </p>
+          <p class="card-text" style="color: #fff;">
+            3) Provides Searching and Sorting based on Table Columns
+          </p>
+          <p class="card-text" style="color: #fff;">
+            4) Provides a User Upecific Wishlist
+          </p>
+          <button type="button" class="btn feat">
+            Got it!
+          </button>
+        </div>
+      </div>
+    </div>
     <div class="container-fluid">
       <div class="row">
         <div class="info-background img-fluid col-md-8"></div>
@@ -129,15 +173,6 @@
                   required
                 />
               </div>
-              <!-- <div class="checkbox">
-                <label
-                  ><input
-                    type="checkbox"
-                    onchange="document.getElementById('register_button').disabled = !this.checked;"
-                  />
-                  I agree to all the terms and conditions.</label
-                >
-              </div> -->
               <div class="error" id="signUpFormMessage"></div>
               <div class="successful" id="login-signup"></div>
               <button

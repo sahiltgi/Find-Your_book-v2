@@ -26,25 +26,6 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-
-    <!-- <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css"
-    />
-    <script
-      type="text/javascript"
-      charset="utf8"
-      src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"
-    ></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
-    <script
-      type="text/javascript"
-      charset="utf8"
-      src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"
-    ></script> -->
-
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
@@ -55,11 +36,12 @@
     <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.colVis.min.js"></script>
-    <!-- <script src=""></script>
-    <script src=""></script>
-    <script src=""></script>
-    <script src=""></script> -->
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+    />
     <link
       rel="stylesheet"
       type="text/css"
@@ -109,12 +91,28 @@
             style="font-weight: bold;"
             >Home</a
           >
-          <a href="#" class="nav-item nav-link" style="font-weight: bold;"
-            >Features</a
-          >
-          <a href="#" class="nav-item nav-link" style="font-weight: bold;"
-            >About Us</a
-          >
+          <a
+          href="#exampleModalLong"
+          class="nav-item nav-link"
+          data-toggle="modal"
+          id="navbar_feature_btn"
+          data-target="#exampleModalLong"
+          style="font-weight: bold;"
+          >Features</a
+        >
+        <a
+          href="http://localhost:8080/views/aboutus.html"
+          class="nav-item nav-link"
+          style="font-weight: bold;"
+          >About Us</a
+        >
+        <a
+          href=""
+          class="nav-item nav-link"
+          id="user"
+          style="font-weight: bold;"
+          ></a
+        >
           <a
             onclick="window.location.href='http://localhost:8080/'"
             class="nav-item nav-link"
@@ -124,7 +122,44 @@
         </div>
       </div>
     </nav>
+    <div
+      class="modal fade"
+      id="exampleModalLong"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLongTitle"
+      aria-hidden="true"
+    >
+      <div class="card modal-dialog car-back w-90">
+        <img
+          class="card-img-top"
+          src="http://localhost:8080/assets/features.jpg"
+          alt="Card image cap"
+          style="height: 20rem;"
+        />
+        <div class="card-body">
+          <h5 class="card-title" style="color: #fff;">Features</h5>
+          <p class="card-text" style="color: #fff;">
+            1) Provides a huge number of Books to Seach
+          </p>
+          <p class="card-text" style="color: #fff;">
+            2) Provides Authentication for different user
+          </p>
+          <p class="card-text" style="color: #fff;">
+            3) Provides Searching and Sorting based on Table Columns
+          </p>
+          <p class="card-text" style="color: #fff;">
+            4) Provides a User Upecific Wishlist
+          </p>
+          <button type="button" class="btn feat">
+            Got it!
+          </button>
+        </div>
+      </div>
+    </div>
     <div class="container mt-5 table-responsive-sm">
+      <div class="validate" id="val"></div>
+      <div class="validate-failed" id="val-fail"></div>
       <table class="table table-bordered table-sm" id="table_id">
         <thead style="color: #2a0164;"
           <tr>

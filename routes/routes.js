@@ -3,7 +3,7 @@ const AUTHENTICATION = "authenticate-user";
 const BOOKDATA = "book-database";
 const WISHLIST = "user-wishlist";
 
-module.exports = function(app, db) {
+module.exports = function (app, db) {
   /*--------------------------------------------------------AUTHENTICATION-----------------------------------------------------------*/
   //login
   // app.post("/api/login", (req, res) => {
@@ -40,7 +40,7 @@ module.exports = function(app, db) {
       return res.status(200).send({
         user_obj: user,
         status: "success",
-        message: "successfully logged in"
+        message: "successfully logged in",
       });
     });
   });
@@ -59,19 +59,19 @@ module.exports = function(app, db) {
       .insertOne({
         username: username,
         email: email,
-        password: password
+        password: password,
       })
-      .then(result => {
+      .then((result) => {
         res.send({
           status: "success",
-          message: "new user added"
+          message: "new user added",
         });
         // console.log(result);
       })
-      .catch(err => {
+      .catch((err) => {
         res.status(400).send({
           status: "db_error",
-          message: err
+          message: err,
         });
       });
   });
@@ -101,18 +101,18 @@ module.exports = function(app, db) {
     if (endIndex < mydara.length) {
       results.next = {
         page: page + 1,
-        limit: limit
+        limit: limit,
       };
     }
 
     if (startIndex > 0) {
       results.previous = {
         page: page - 1,
-        limit: limit
+        limit: limit,
       };
     }
 
-    mydara.find({}).toArray(function(err, result) {
+    mydara.find({}).toArray(function (err, result) {
       var obj = JSON.parse(JSON.stringify(result));
       if (err) {
         throw err;
@@ -176,12 +176,12 @@ module.exports = function(app, db) {
           bagpack: {
             bsonType: "array",
             description: "must be a object",
-            uniqueItems: true
-          }
-        }
-      }
+            uniqueItems: true,
+          },
+        },
+      },
     },
-    validationAction: "error" // "warn" to allow wrong entries with warning
+    validationAction: "error", // "warn" to allow wrong entries with warning
   });
 
   app.put("/api/wishlist", (req, res) => {
@@ -203,39 +203,41 @@ module.exports = function(app, db) {
                 bookId: bookId,
                 bookName: bookName,
                 bookAuthor: bookAuthor,
-                bookImg: bookImg
-              }
-            }
+                bookImg: bookImg,
+              },
+            },
           },
           { upsert: true }
         )
-        .then(result => {
+        .then((result) => {
           res.status(200).send({
             message: "new book added sucessfully",
-            data: result
+            data: result,
           });
         })
-        .catch(error => {
+        .catch((error) => {
           // console.log("update error", error);
           res.status(400).send({
             message: "update failed",
-            error: error
+            error: error,
           });
         });
     }
   });
 
-  app.get("/api/wishlist/display", function(req, res) {
+  app.get("/api/wishlist/display", function (req, res) {
     const wishlistData = db.collection(WISHLIST);
-    console.log(wishlistData);
-    wishlistData.find({}).toArray(function(err, result) {
-      let obj = JSON.parse(JSON.stringify(result));
-      if (err) {
-        throw err;
-      } else {
-        console.log(obj);
-        res.send(obj);
-      }
-    });
+    // console.log(wishlistData);
+    wishlistData
+      .find({ _id: req.query.userId })
+      .toArray(function (err, result) {
+        let obj = JSON.parse(JSON.stringify(result));
+        if (err) {
+          throw err;
+        } else {
+          // console.log(obj);
+          res.send(obj);
+        }
+      });
   });
 };

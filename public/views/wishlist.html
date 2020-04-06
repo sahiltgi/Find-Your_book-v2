@@ -24,19 +24,24 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="http://localhost:8080/styles/aboutus.css"
+      href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css"
     />
+
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"
+    ></script>
     <meta charset="utf-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+      content="width=device-width, initial-scale=1,
+            initial-scale=1.0"
     />
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="http://localhost:8080/styles/wishlist.css" />
     <link rel="icon" type="image/icon type" href="../assets/logo.JPG" />
-    <title>About Us</title>
+    <title>Book Finder</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
@@ -47,7 +52,7 @@
           alt="book FINDER"
         />
       </a>
-      <h4 class="logo-heading" style="color: rgba(0,0,0,.5)">
+      <h4 class="logo-heading" style="color: rgba(0, 0, 0, 0.5);">
         <strong>BOOK FINDER</strong>
       </h4>
       <button
@@ -78,15 +83,21 @@
           >
           <a
             href="http://localhost:8080/views/aboutus.html"
-            class="nav-item nav-link active"
+            class="nav-item nav-link"
             style="font-weight: bold;"
             >About Us</a
           >
           <a
-            href="http://localhost:8080/"
+            href=""
             class="nav-item nav-link"
+            id="user"
             style="font-weight: bold;"
-            >Log In</a
+          ></a>
+          <a
+            onclick="window.location.href='http://localhost:8080/'"
+            class="nav-item nav-link"
+            style="font-weight: bold; cursor: pointer;"
+            >Logout</a
           >
         </div>
       </div>
@@ -126,36 +137,7 @@
         </div>
       </div>
     </div>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="info-background img-fluid col-md-7"></div>
-        <div class="text-background col-md-5">
-          <h2 class="mt-5" style="color: #fff;font-size: 50px;">O U R</h2>
-          <h2 style="color: #fff; font-size: 50px;">W E A P O N -</h2>
-          <p style="color: rgb(202, 163, 163); font-size: 27px;">
-            IS THE ABILITY TO CAPTURE YOUR AUDIENCE ATTENTION
-          </p>
-          <p class="justify-content-start" style="color: rgb(235, 191, 191);">
-            This platform provides the ability to create individual
-            authentication details. It provides a huge database of books where
-            each user can search for their own interest of books. It also
-            provides the capability to create individual wishlist for each user.
-          </p>
-          <button
-            type="button"
-            id="home_Button"
-            onclick="window.location.href = 'http://localhost:8080/';"
-            class="btn btn-custom mb-4 text-uppercase"
-            style="color: aliceblue;"
-          >
-            <span class="material-icons">
-              navigate_before
-            </span>
-            Back to Home
-          </button>
-        </div>
-        <!-- <div class="col-md-1">hello</div> -->
-      </div>
-    </div>
+    <div id="bookWishlist"></div>
+    <script src="http://localhost:8080/scripts/script.js"></script>
   </body>
 </html>
