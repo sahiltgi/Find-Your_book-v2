@@ -144,27 +144,44 @@ async function logout() {
 
 let bookContainer = document.getElementById("bookWishlist");
 
-function bookDataDisplay() {
+function bookDataDisplay(book) {
+  // let card = document.createElement("div");
+  // card.className = "card";
+  // let footerData = document.createElement("img");
+  // card.appendChild(footerData);
+  // let cardBody = document.createElement("div");
+  // cardBody.className = "card-body";
+  // let heading = document.createElement("h5");
+  // heading.className = "card-title";
+  // let titleData = document.createTextNode(book.bookName);
+  // heading.appendChild(titleData);
+  // let para = document.createElement("p");
+  // para.className = "card-text";
+  // let paraData = document.createTextNode(book.bookAuthor);
+  // para.appendChild(paraData);
+  // cardBody.appendChild(heading);
+  // cardBody.appendChild(para);
+  // bookContainer.appendChild(card);
+  // bookContainer.appendChild(cardBody);
+
   let card = document.createElement("div");
-  card.className = "card-header";
-  let footerData = document.createTextNode("Footer");
-  card.appendChild(footerData);
+  card.className = "card p-4";
+  let image = document.createElement("img");
+  image.className = "card-img-top";
+  image.src = book.bookImg;
   let cardBody = document.createElement("div");
-  cardBody.className = "card-body";
-  let heading = document.createElement("h5");
-  heading.className = "card-title";
-  let titleData = document.createTextNode("Special Title Treatement");
-  heading.appendChild(titleData);
-  let para = document.createElement("p");
+  let title = document.createElement("h5");
+  title.className = "card-title";
+  let titleData = document.createTextNode(book.bookName);
+  title.appendChild(titleData);
+  cardBody.appendChild(title);
+  let para = document.createElement("h6");
   para.className = "card-text";
-  let paraData = document.createTextNode(
-    "With supporting text below as a natural lead-in to additional content."
-  );
-  para.appendChild(paraData);
-  cardBody.appendChild(heading);
-  cardBody.appendChild(para);
+  let paraData = document.createTextNode(book.bookAuthor);
+  cardBody.appendChild(paraData);
+  card.appendChild(image);
+  card.appendChild(cardBody);
   bookContainer.appendChild(card);
-  bookContainer.appendChild(cardBody);
 }
 
 async function fetchWishlist() {
