@@ -9,6 +9,7 @@ async function registration() {
   let userName = signUpEle.username.value;
   let userEmail = signUpEle.email.value;
   let userPass = signUpEle.password.value;
+  let userConPass = signUpEle.confirmpass.value;
   let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   if (userName == "" && userEmail == "" && userPass == "") {
     document.getElementById("signUpFormMessage").innerText =
@@ -34,6 +35,9 @@ async function registration() {
   } else if (userPass.length < 8) {
     document.getElementById("signUpFormMessage").innerText =
       "Length of password should be greater than 8";
+  } else if (userConPass != userPass) {
+    document.getElementById("signUpFormMessage").innerText =
+      "Password and Confirm Password doesn't match";
   } else if (regex.test(userEmail) == false) {
     document.getElementById("signUpFormMessage").innerText =
       "Write email in abc@xyz.com format";
@@ -42,6 +46,7 @@ async function registration() {
       username: userName,
       email: userEmail,
       password: userPass,
+      confirmpass: userConPass,
     });
 
     let res = await fetch(hostUrl + "api/signup", {
@@ -145,25 +150,6 @@ async function logout() {
 let bookContainer = document.getElementById("bookWishlist");
 
 function bookDataDisplay(book) {
-  // let card = document.createElement("div");
-  // card.className = "card";
-  // let footerData = document.createElement("img");
-  // card.appendChild(footerData);
-  // let cardBody = document.createElement("div");
-  // cardBody.className = "card-body";
-  // let heading = document.createElement("h5");
-  // heading.className = "card-title";
-  // let titleData = document.createTextNode(book.bookName);
-  // heading.appendChild(titleData);
-  // let para = document.createElement("p");
-  // para.className = "card-text";
-  // let paraData = document.createTextNode(book.bookAuthor);
-  // para.appendChild(paraData);
-  // cardBody.appendChild(heading);
-  // cardBody.appendChild(para);
-  // bookContainer.appendChild(card);
-  // bookContainer.appendChild(cardBody);
-
   let card = document.createElement("div");
   card.className = "card p-4";
   let image = document.createElement("img");

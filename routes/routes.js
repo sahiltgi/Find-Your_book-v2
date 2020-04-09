@@ -53,13 +53,14 @@ module.exports = function (app, db) {
 
   //register
   app.post("/api/signup", (req, res) => {
-    const { username, email, password } = req.body;
+    const { username, email, password, confirmpass } = req.body;
     const collection = db.collection(AUTHENTICATION);
     collection
       .insertOne({
         username: username,
         email: email,
         password: password,
+        confirmpass: confirmpass,
       })
       .then((result) => {
         res.send({
