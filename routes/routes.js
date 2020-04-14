@@ -1,6 +1,6 @@
 const ObjectID = require("mongodb").ObjectID;
 const AUTHENTICATION = "authenticate-user";
-const BOOKDATA = "book-database";
+const BOOKDATA = "book-database1000";
 const WISHLIST = "user-wishlist";
 
 module.exports = function (app, db) {
@@ -170,14 +170,10 @@ module.exports = function (app, db) {
         bsonType: "object",
         required: ["bagpack"],
         properties: {
-          // user_id: {
-          //   bsonType: "string",
-          //   description: "must be a string and is required"
-          // },
           bagpack: {
             bsonType: "array",
             description: "must be a object",
-            uniqueItems: true,
+            unique: true,
           },
         },
       },
@@ -194,12 +190,11 @@ module.exports = function (app, db) {
     const bookImg = body.book.img;
     if (body) {
       const collection = db.collection(WISHLIST);
-      // console.log("user wishlist", collection);
       collection
         .updateOne(
           { _id: userId }, // filter
           {
-            $push: {
+            $addToSet: {
               bagpack: {
                 bookId: bookId,
                 bookName: bookName,

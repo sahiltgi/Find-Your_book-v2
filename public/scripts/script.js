@@ -2,6 +2,7 @@ const hostUrl = "http://localhost:8080/";
 const Limit = 10;
 const PageNumber = 1;
 let user_id;
+let bookDetailsCheck;
 
 async function registration() {
   event.preventDefault();
@@ -57,8 +58,8 @@ async function registration() {
       },
     });
     let dataJson = await res.json();
-    console.log("Success:", JSON.stringify(dataJson));
-    console.log("Successful Signup");
+    // console.log("Success:", JSON.stringify(dataJson));
+    // console.log("Successful Signup");
     document.forms.signUpForm.reset();
     document.getElementById("login-signup").innerText =
       "User Signed Up Successfully!";
@@ -116,7 +117,7 @@ async function login() {
 
 async function showUserInfo() {
   let user = await fetchUserDetails();
-  console.log(user);
+  // console.log(user);
   document.getElementById("user").innerText = user.username;
 }
 showUserInfo();
@@ -151,18 +152,19 @@ let bookContainer = document.getElementById("bookWishlist");
 
 function bookDataDisplay(book) {
   let card = document.createElement("div");
-  card.className = "card p-4";
+  card.className = "card col-md-2 fixSize mb-4 mr-2 p-2";
   let image = document.createElement("img");
-  image.className = "card-img-top";
+  image.className = "card-img-top img-fluid fizSize";
   image.src = book.bookImg;
   let cardBody = document.createElement("div");
+  cardBody.className = "card-block";
   let title = document.createElement("h5");
-  title.className = "card-title";
+  title.className = "card-title fizSiz";
   let titleData = document.createTextNode(book.bookName);
   title.appendChild(titleData);
   cardBody.appendChild(title);
   let para = document.createElement("h6");
-  para.className = "card-text";
+  para.className = "card-text fizSiz";
   let paraData = document.createTextNode(book.bookAuthor);
   cardBody.appendChild(paraData);
   card.appendChild(image);
@@ -185,7 +187,7 @@ async function fetchWishlist() {
     );
     // console.log(response.json());
     response.json().then((matter) => {
-      console.log(matter[0].bagpack);
+      // console.log(matter[0].bagpack);
       matter[0].bagpack.forEach(bookDataDisplay);
     });
     if (response.status == 200) {
@@ -272,6 +274,7 @@ $(document).ready(function () {
 async function userWishlist(el) {
   let userDetails = await fetchUserDetails();
   user_id = userDetails._id;
+
   try {
     const userId = user_id;
     const bookId = el.dataset.book_id;
@@ -294,8 +297,11 @@ async function userWishlist(el) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
+
       redirect: "follow",
     });
+    // console.log(body);
+
     if (response.status == 400) {
       toastr.error("Already Exist!");
     } else if (response.status == 200) {
